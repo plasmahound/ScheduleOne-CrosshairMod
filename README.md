@@ -12,17 +12,17 @@ Improve guns in **Schedule I** with a configurable crosshair.
 
 ### Planned Features / Bugfixes
 - Optionally preserve toggle state between game sessions *(via another config value)*
-	- Plus, another config value to control whether this value is overriden or not on exit!
+	- Plus, another config value to control whether this value is overridden or not on exit!
 - Disable crosshair upon exiting game (to prevent it from rendering in the main menu)
 	- (???) Also, prevent hotkey from toggling while in main menu.
-	- (Combined, this should help further preserve state + fix a visual bug!)
+	- *(Combined, it should patch the main menu rendering bug + enforce toggle-state preservation!)*
 - Customizable crosshair:
 	- Color
 	- Size
 	- Shape
 - Dynamically toggle the crosshair when a gun is equipped/unequipped in the hotbar.
-- Add support for MoreGuns additions.  *(Not necessarily required, assuming that the broader solution detailed below is implemented!)*
-- Identify a ranged weapon category type for use with the dynamic toggle feature. That way, all ranged weapons (modded or not) should be supported, theoretically.
+- Add support for added weapon(s) from MoreGuns.  *(Not necessarily required, **assuming** that the broader resolution detailed right underneath is implemented!)*
+- Identify a ranged weapon category type for use with the dynamic toggle feature. That way, all ranged weapons **(modded or not)** should be supported, *theoretically*.
 
 ## Installation
 
@@ -50,7 +50,7 @@ Improve guns in **Schedule I** with a configurable crosshair.
 
 ## Demo
 
-![Crosshair Toggle Demo](https://raw.githubusercontent.com/plasmahound/ScheduleOne-CrosshairMod/blob/master/Demo.gif)
+![Crosshair-Toggle-Demo](https://raw.githubusercontent.com/plasmahound/ScheduleOne-CrosshairMod/master/Demo.gif)
 
 <br>
 
