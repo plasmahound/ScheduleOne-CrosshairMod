@@ -48,6 +48,10 @@ Improve guns in **Schedule I** with a configurable crosshair.
 - Press the toggle hotkey (default `Y`) to enable/disable a crosshair.
 - While enabled, this crosshair will be visible, even while wielding a gun!
 
+## Demo
+
+![Crosshair Toggle Demo](https://raw.githubusercontent.com/plasmahound/ScheduleOne-CrosshairMod/blob/master/Demo.gif)
+
 <br>
 
 ## License
