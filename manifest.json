@@ -1,0 +1,9 @@
+{
+    "name": "EZCrosshair",
+    "description": "Adds a configurable crosshair to the HUD.",
+    "version_number": "1.0.0",
+    "dependencies": [
+        "LavaGang-MelonLoader-0.7.0"
+    ],
+    "website_url": "https://github.com/plasmahound/ScheduleOne-CrosshairMod"
+}
