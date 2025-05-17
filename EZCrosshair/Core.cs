@@ -15,7 +15,7 @@ namespace EZCrosshair
 		{
 			LoggerInstance.Msg("Aimed & ready to fire!");
 			Core.category = MelonPreferences.CreateCategory("EZCrosshair", "EZ Crosshair");
-			Core.enableToggle = Core.category.CreateEntry<bool>("EnableToggle", true, null, "Do you want to manually toggle the crosshair? (true/false)", false, false, null, null);
+			Core.enableToggle = Core.category.CreateEntry<bool>("EnableToggle", true, null, "Enable manual crosshair toggle? (true/false)", false, false, null, null);
 			Core.toggleKey = Core.category.CreateEntry<KeyCode>("ToggleKey", KeyCode.Y, null, "Crosshair toggle hotkey:", false, false, null, null);
 		}
 
