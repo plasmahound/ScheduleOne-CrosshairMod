@@ -17,12 +17,43 @@ namespace EZCrosshair
 			Core.category = MelonPreferences.CreateCategory("EZCrosshair", "EZ Crosshair");
 			Core.enableToggle = Core.category.CreateEntry<bool>("EnableToggle", true, null, "Do you want to manually toggle the crosshair? (true/false)", false, false, null, null);
 			Core.toggleKey = Core.category.CreateEntry<KeyCode>("ToggleKey", KeyCode.Y, null, "Crosshair toggle hotkey:", false, false, null, null);
-			this.showCrosshair = false;
+		}
+
+		public override void OnSceneWasInitialized(int buildIndex, string sceneName)
+		{
+			if (sceneName == "Main")
+			{
+				DebugLog("{Scene} Main Initialized!");
+			}
+			if (sceneName == "Menu")
+			{
+				DebugLog("{Scene} Menu Initialized!");
+			}
+		}
+
+		public override void OnSceneWasLoaded(int buildIndex, string sceneName)
+		{
+			if (sceneName == "Main")
+			{
+				DebugLog("{Scene} Main Loaded!");
+
+				this.gameLoaded = true;
+			}
+		}
+
+		public override void OnSceneWasUnloaded(int buildIndex, string sceneName)
+		{
+			if (sceneName == "Main")
+			{
+				DebugLog("{Scene} Main Unloaded!");
+
+				this.gameLoaded = false;
+			}
 		}
 
 		public override void OnUpdate()
 		{
-			if (Core.enableToggle.Value && Input.GetKeyDown(Core.toggleKey.Value))
+			if (this.gameLoaded && Core.enableToggle.Value && Input.GetKeyDown(Core.toggleKey.Value))
 			{
 				DebugLog("[Toggle: " + (!this.showCrosshair ? "ON" : "OFF") + "]");
 
@@ -32,7 +63,7 @@ namespace EZCrosshair
 
 		public override void OnGUI()
 		{
-			if (Core.enableToggle.Value && this.showCrosshair)
+			if (this.gameLoaded && Core.enableToggle.Value && this.showCrosshair)
 			{
 				float screenWidth = (float)(Screen.width / 2);
 				float screenHeight = (float)(Screen.height / 2);
@@ -47,12 +78,14 @@ namespace EZCrosshair
 		public static void DebugLog(string msg)
 		{
 			if (Core.debugMode)
-		{
-			MelonLogger.Msg(msg);
-		}
+			{
+				MelonLogger.Msg(msg);
+			}
 		}
 
 		private const bool debugMode = false;
+
+		private bool gameLoaded;
 
 		private bool showCrosshair;
 
@@ -61,6 +94,5 @@ namespace EZCrosshair
 		public static MelonPreferences_Entry<bool> enableToggle;
 
 		public static MelonPreferences_Entry<KeyCode> toggleKey;
-
 	}
 }
