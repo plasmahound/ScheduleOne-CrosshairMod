@@ -1,7 +1,7 @@
 {
     "name": "EZCrosshair",
     "description": "Adds a configurable crosshair to the HUD.",
-    "version_number": "1.0.0",
+    "version_number": "1.0.1",
     "dependencies": [
         "LavaGang-MelonLoader-0.7.0"
     ],

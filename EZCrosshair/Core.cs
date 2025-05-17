@@ -2,7 +2,7 @@
 using MelonLoader;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(EZCrosshair.Core), "EZCrosshair", "1.0.0", "plasmahound", null)]
+[assembly: MelonInfo(typeof(EZCrosshair.Core), "EZCrosshair", "1.0.1", "plasmahound", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 [assembly: MelonColor(255, 255, 130, 30)]
 [assembly: MelonAuthorColor(200, 180, 130, 255)]

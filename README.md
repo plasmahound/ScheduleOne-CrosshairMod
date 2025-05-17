@@ -1,25 +1,24 @@
 # EZ Crosshair Mod
 Improve guns in **Schedule I** with a configurable crosshair.
 
-<!-- https://nexusmods.com/schedule1/mods/ -->
+https://nexusmods.com/schedule1/mods/984
 
 ---
 
 ## Features
 
-- Add a crosshair to the HUD.
-- Toggle crosshair with a configurable hotkey.
+- No more blindly inaccurate shooting in **Schedule I**!
+- Adds a crosshair to the HUD to make aiming with guns easier.
+- Configure which key you want to toggle the crosshair.
 
 ### Planned Features / Bugfixes
 - Optionally preserve toggle state between game sessions *(via another config value)*
 	- Plus, another config value to control whether this value is overridden or not on exit!
-- Disable crosshair upon exiting game (to prevent it from rendering in the main menu)
-	- (???) Also, prevent hotkey from toggling while in main menu.
-	- *(Combined, it should patch the main menu rendering bug + enforce toggle-state preservation!)*
 - Customizable crosshair:
 	- Color
-	- Size
 	- Shape
+	- Sizing Option *(for each shape)*
+	- Configure & enable each shape separately (so that you can combine multiple shapes!)
 - Dynamically toggle the crosshair when a gun is equipped/unequipped in the hotbar.
 - Add support for added weapon(s) from MoreGuns.  *(Not necessarily required, **assuming** that the broader resolution detailed right underneath is implemented!)*
 - Identify a ranged weapon category type for use with the dynamic toggle feature. That way, all ranged weapons **(modded or not)** should be supported, *theoretically*.
@@ -32,9 +31,9 @@ Improve guns in **Schedule I** with a configurable crosshair.
 
 ## Configuration
 
-<sub>(**IMPORTANT:** First, generate the config entry by opening the game at least once!)</sub>
+<sub>(**IMPORTANT:** First, you must <b>open the game</b> at least <u>once</u> to generate preferences!)</sub>
 
-1.  Edit `MelonPreferences.cfg`, located in the UserData folder.
+1.  Edit `MelonPreferences.cfg`, located in the **UserData** folder.
 2.  Find the `[EZCrosshair]` section.
 3.  Replace the contents after ` = ` for each config option.
 
@@ -44,9 +43,8 @@ Improve guns in **Schedule I** with a configurable crosshair.
 
 ## Usage
 
-- No more blindly inaccurate shooting in **Schedule I**!
-- Press the toggle hotkey (default `Y`) to enable/disable a crosshair.
-- While enabled, this crosshair will be visible, even while wielding a gun!
+- Press the toggle hotkey (default `Y`) to enable/disable the crosshair.
+- While enabled, the crosshair will be visible, even when wielding a gun!
 
 ## Demo
 
