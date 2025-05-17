@@ -22,9 +22,10 @@ namespace EZCrosshair
 
 		public override void OnUpdate()
 		{
-			bool flag = Core.enableToggle.Value && Input.GetKeyDown(Core.toggleKey.Value);
-			if (flag)
+			if (Core.enableToggle.Value && Input.GetKeyDown(Core.toggleKey.Value))
 			{
+				DebugLog("[Toggle: " + (!this.showCrosshair ? "ON" : "OFF") + "]");
+
 				this.showCrosshair = !this.showCrosshair;
 			}
 		}
@@ -43,10 +44,15 @@ namespace EZCrosshair
 			}
 		}
 
-		private static void Log(string msg)
+		public static void DebugLog(string msg)
+		{
+			if (Core.debugMode)
 		{
 			MelonLogger.Msg(msg);
 		}
+		}
+
+		private const bool debugMode = false;
 
 		private bool showCrosshair;
 
