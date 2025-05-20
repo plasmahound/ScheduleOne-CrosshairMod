@@ -67,7 +67,6 @@ namespace EZCrosshair
 			{
 				/* List of ranged weapon IDs to compare with the hotbar item ID */
 				string[] crosshairIdList = { "revolver", "m1911", "ak47" };
-				//List<string> crosshairIds = new List<string>() { "revolver", "m1911", "ak47" };
 
 				/* Only true if a hotbar slot is selected AND that slot has an item in it */
 				if (playerInv.isAnythingEquipped)
@@ -100,7 +99,6 @@ namespace EZCrosshair
 
 				//if (playerInv.equippedSlot != null)
 				//{
-				//	//DebugLog(String.Format("equippedSlot: {0}\n", playerInv.equippedSlot));
 				//	if (playerInv.equippedSlot.ItemInstance != null)
 				//	{
 				//		//DebugLog(String.Format("equippedSlot.ItemInstance.Category: {0}\n", playerInv.equippedSlot.ItemInstance.Category));
@@ -108,17 +106,13 @@ namespace EZCrosshair
 
 				//		//DebugLog(String.Format("equippedSlot.ItemInstance.Equippable.name: {0}\n", playerInv.equippedSlot.ItemInstance.Equippable.itemInstance));
 				//	}
-
-				//	//DebugLog(String.Format("equippedSlot.SlotIndex: {0}\n", playerInv.equippedSlot.SlotIndex));
 				//	//DebugLog(String.Format(": {0}\n", playerInv.equippedSlot.DoesItemMatchFilters(ItemInstance);
 				//}
 
-
+				//INITIAL DEBUG OUTPUT
 				//HotbarSlot slot = playerInv.equippedSlot.ItemInstance;
 				//DebugLog(String.Format("SLOT :\n - Name: {0}\n - Description: {1}\n - Category: {2}\n - ID: {3}\n - Definition: {4}\n - Equippable: {5}\n - GetType() --> {6}\n - GetItemData() --> {7}\n - IsValidInstance() --> {8}\n\n",
 				//	slot.Name, slot.Description, slot.Category, slot.ID, slot.Definition, slot.Equippable, slot.GetType(), slot.GetItemData(), slot.IsValidInstance()));
-
-				//DebugLog(String.Format("{0}\n{1}\n{2|\n{3}\n{4}\n{5}", itemSlot.ItemInstance.Equippable.name));
 			}
 
 			//if (PlayerSingleton<PlayerInventory>.Instance.equippedSlot.Equippable is Equippable_RangedWeapon)
