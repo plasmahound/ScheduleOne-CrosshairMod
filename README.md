@@ -7,21 +7,25 @@ https://nexusmods.com/schedule1/mods/984
 
 ## Features
 
+#### [NEW] Automatic Crosshair Visibility!!!
+
 - No more blindly inaccurate shooting in **Schedule I**!
 - Adds a crosshair to the HUD to make aiming with guns easier.
-- Configure which key you want to toggle the crosshair.
+- Choice of either manual crosshair toggle *(configurable)* **OR** automatic visibility when a gun is held!
 
 ### Planned Features / Bugfixes
-- Optionally preserve toggle state between game sessions *(via another config value)*
-	- Plus, another config value to control whether this value is overridden or not on exit!
+- Adjust MelonPreferences to make clearer what each setting does.
+  - *(`EnableToggle` is a little confusing after **v1.1.0**)*
+- Create a new preference that disables the auto-mode. *(Then, the toggle could still be used in a TBD way **together** with the new feature!)**
 - Customizable crosshair:
 	- Color
 	- Shape
 	- Sizing Option *(for each shape)*
-	- Configure & enable each shape separately (so that you can combine multiple shapes!)
-- Dynamically toggle the crosshair when a gun is equipped/unequipped in the hotbar.
-- Add support for added weapon(s) from MoreGuns.  *(Not necessarily required, **assuming** that the broader resolution detailed right underneath is implemented!)*
-- Identify a ranged weapon category type for use with the dynamic toggle feature. That way, all ranged weapons **(modded or not)** should be supported, *theoretically*.
+	- Configure & enable each shape separately *(so that you can combine multiple shapes!)*
+- ~~Dynamically toggle the crosshair when a gun is equipped/unequipped in the hotbar.~~ &rarr; **[ADDED v1.1.0]**
+- ~~Add support for added weapon(s) from MoreGuns.  *(Not necessarily required, **assuming** that the broader resolution detailed right underneath is implemented!)*~~ &rarr; **[AK-47 ADDED v1.1.0]**
+- Identify a ranged weapon **category** type that can be checked for the automatic functionality.
+  - (*Theoretically*, **ALL** ranged weapons **(modded or not)** should then be supported & "future-proofed")
 
 ## Installation
 
@@ -39,12 +43,20 @@ https://nexusmods.com/schedule1/mods/984
 
 
 - `EnableToggle =` ( `true`/`false` )
+  - `true` &rarr; **Manual** Mode
+  - `false` &rarr; **Auto** Mode **(NEW!)**
 - `ToggleKey =` [KeyCode property](https://docs.unity3d.com/ScriptReference/KeyCode.html)
+  - Only used for **Manual Mode** *(as of now)*
 
 ## Usage
 
-- Press the toggle hotkey (default `Y`) to enable/disable the crosshair.
-- While enabled, the crosshair will be visible, even when wielding a gun!
+#### Auto Mode:
+
+- **No action needed!** When you hold a gun, the crosshair will be visible.
+
+#### Manual Mode:
+
+- Press the **toggle hotkey** (default `Y`) to enable/disable the crosshair.
 
 ## Demo
 
