@@ -119,14 +119,20 @@ namespace EZCrosshair
 		{
 			if (this.gameLoaded && this.showCrosshair)
 			{
-				float screenWidth = (float)(Screen.width / 2);
-				float screenHeight = (float)(Screen.height / 2);
 				float lineLength = 10f;
 				float lineThickness = 1f;
 
-				GUI.DrawTexture(new Rect(screenWidth - lineLength / 2f, screenHeight - lineThickness, lineLength, 2f), Texture2D.whiteTexture);
-				GUI.DrawTexture(new Rect(screenWidth - lineThickness, screenHeight - lineLength / 2f, 2f, lineLength), Texture2D.whiteTexture);
+				DrawCrosshair(lineLength, lineThickness);
 			}
+		}
+
+		private void DrawCrosshair(float lineLength, float lineThickness)
+		{
+			float screenWidth = (float)(Screen.width / 2);
+			float screenHeight = (float)(Screen.height / 2);
+
+			GUI.DrawTexture(new Rect(screenWidth - lineLength / 2f, screenHeight - lineThickness, lineLength, 2f), Texture2D.whiteTexture);
+			GUI.DrawTexture(new Rect(screenWidth - lineThickness, screenHeight - lineLength / 2f, 2f, lineLength), Texture2D.whiteTexture);
 		}
 
 		public static void DebugLog(string msg)
