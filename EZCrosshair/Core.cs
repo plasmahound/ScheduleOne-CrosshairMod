@@ -23,33 +23,37 @@ namespace EZCrosshair
 
 		public override void OnSceneWasInitialized(int buildIndex, string sceneName)
 		{
-			if (sceneName == "Main")
+			switch (sceneName)
 			{
-				DebugLog("{Scene} Main Initialized!");
-			}
-			if (sceneName == "Menu")
-			{
-				DebugLog("{Scene} Menu Initialized!");
+				case "Main":
+					DebugLog("(Scene) \"Main\" Initialized!");
+					break;
+
+				case "Menu":
+					DebugLog("(Scene) \"Menu\" Initialized!");
+					break;
 			}
 		}
 
 		public override void OnSceneWasLoaded(int buildIndex, string sceneName)
 		{
-			if (sceneName == "Main")
+			switch (sceneName)
 			{
-				DebugLog("{Scene} Main Loaded!");
-
-				this.gameLoaded = true;
+				case "Main":
+					DebugLog("(Scene) \"Main\" Loaded!");
+					this.gameLoaded = true;
+					break;
 			}
 		}
 
 		public override void OnSceneWasUnloaded(int buildIndex, string sceneName)
 		{
-			if (sceneName == "Main")
+			switch (sceneName)
 			{
-				DebugLog("{Scene} Main Unloaded!");
-
-				this.gameLoaded = false;
+				case "Main":
+					DebugLog("(Scene) \"Main\" Unloaded!");
+					this.gameLoaded = false;
+					break;
 			}
 		}
 
