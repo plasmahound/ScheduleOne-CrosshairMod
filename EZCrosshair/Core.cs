@@ -13,6 +13,21 @@ namespace EZCrosshair
 {
 	public class Core : MelonMod
 	{
+		/* List of ranged weapon IDs to compare with the hotbar item ID */
+		private static readonly string[] crosshairIdList = { "revolver", "m1911", "ak47" };
+
+		private const bool debugMode = false;
+
+		private bool gameLoaded;
+
+		private bool showCrosshair;
+
+		public static MelonPreferences_Category category;
+
+		public static MelonPreferences_Entry<bool> enableToggle;
+
+		public static MelonPreferences_Entry<KeyCode> toggleKey;
+
 		public override void OnInitializeMelon()
 		{
 			LoggerInstance.Msg("Aimed & ready to fire!");
@@ -69,9 +84,6 @@ namespace EZCrosshair
 			}
 			else if (this.gameLoaded && !Core.enableToggle.Value && playerInv != null)
 			{
-				/* List of ranged weapon IDs to compare with the hotbar item ID */
-				string[] crosshairIdList = { "revolver", "m1911", "ak47" };
-
 				/* Only true if a hotbar slot is selected AND that slot has an item in it */
 				if (playerInv.isAnythingEquipped)
 				{
@@ -95,32 +107,12 @@ namespace EZCrosshair
 						}
 					}
 				}
-				/* If an item is not selected in the hotbar & the crosshair was previous enabled, then disable the crosshair! */
+				/* If an item is not selected in the hotbar & the crosshair was previously enabled, then disable the crosshair! */
 				else if (this.showCrosshair)
 				{
 					this.showCrosshair = false;
 				}
-
-				//if (playerInv.equippedSlot != null)
-				//{
-				//	if (playerInv.equippedSlot.ItemInstance != null)
-				//	{
-				//		//DebugLog(String.Format("equippedSlot.ItemInstance.Category: {0}\n", playerInv.equippedSlot.ItemInstance.Category));
-				//		//DebugLog(String.Format("equippedSlot.ItemInstance.Equippable.name: {0}\n", playerInv.equippedSlot.ItemInstance.Equippable.name));
-
-				//		//DebugLog(String.Format("equippedSlot.ItemInstance.Equippable.name: {0}\n", playerInv.equippedSlot.ItemInstance.Equippable.itemInstance));
-				//	}
-				//	//DebugLog(String.Format(": {0}\n", playerInv.equippedSlot.DoesItemMatchFilters(ItemInstance);
-				//}
-
-				//INITIAL DEBUG OUTPUT
-				//HotbarSlot slot = playerInv.equippedSlot.ItemInstance;
-				//DebugLog(String.Format("SLOT :\n - Name: {0}\n - Description: {1}\n - Category: {2}\n - ID: {3}\n - Definition: {4}\n - Equippable: {5}\n - GetType() --> {6}\n - GetItemData() --> {7}\n - IsValidInstance() --> {8}\n\n",
-				//	slot.Name, slot.Description, slot.Category, slot.ID, slot.Definition, slot.Equippable, slot.GetType(), slot.GetItemData(), slot.IsValidInstance()));
 			}
-
-			//if (PlayerSingleton<PlayerInventory>.Instance.equippedSlot.Equippable is Equippable_RangedWeapon)
-			//if (itemSlot.ItemInstance.Equippable is Equippable_RangedWeapon) { }
 		}
 
 		public override void OnGUI()
@@ -144,17 +136,5 @@ namespace EZCrosshair
 				MelonLogger.Msg(msg);
 			}
 		}
-
-		private const bool debugMode = false;
-
-		private bool gameLoaded;
-
-		private bool showCrosshair;
-
-		public static MelonPreferences_Category category;
-
-		public static MelonPreferences_Entry<bool> enableToggle;
-
-		public static MelonPreferences_Entry<KeyCode> toggleKey;
 	}
 }
