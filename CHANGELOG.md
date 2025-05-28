@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.1.1] 2025-05-28
+- Refactored code for easier maintenance & readability.
+- Changed `MelonPreferences.cfg` to make clearer what each preference does.
+- `EnableToggle` -> `CrosshairMode` (`"auto"` / `"manual"`)
+
 ## [v1.1.0] 2025-05-19
 ### Automatic Crosshair Visibility!
 The crosshair automatically appears when holding a gun & disappears when the gun is put away!
