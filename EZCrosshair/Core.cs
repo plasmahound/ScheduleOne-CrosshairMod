@@ -78,13 +78,13 @@ namespace EZCrosshair
 
 			if (this.gameLoaded)
 			{
-				if (string.Equals(Core.crosshairMode.Value.ToLower(), "manual") && Input.GetKeyDown(Core.toggleKey.Value))
+				if (Core.crosshairMode.Value.ToLower().Contains("man") && Input.GetKeyDown(Core.toggleKey.Value))
 				{
 					DebugLog(String.Format("[Toggle: {0}]", !this.showCrosshair ? "ON" : "OFF"));
 
 					this.showCrosshair = !this.showCrosshair;
 				}
-				else if (string.Equals(Core.crosshairMode.Value.ToLower(), "auto") && playerInv != null)
+				else if (Core.crosshairMode.Value.ToLower().Contains("aut") && playerInv != null)
 				{
 					if (playerInv.isAnythingEquipped)
 					{
