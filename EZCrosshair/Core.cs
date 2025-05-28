@@ -4,7 +4,7 @@ using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(EZCrosshair.Core), "EZCrosshair", "1.1.0", "plasmahound", null)]
+[assembly: MelonInfo(typeof(EZCrosshair.Core), "EZCrosshair", "1.1.1", "plasmahound", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 [assembly: MelonColor(255, 255, 130, 30)]
 [assembly: MelonAuthorColor(200, 180, 130, 255)]
@@ -24,7 +24,7 @@ namespace EZCrosshair
 
 		public static MelonPreferences_Category category;
 
-		public static MelonPreferences_Entry<bool> enableToggle;
+		public static MelonPreferences_Entry<string> crosshairMode;
 
 		public static MelonPreferences_Entry<KeyCode> toggleKey;
 
@@ -32,8 +32,8 @@ namespace EZCrosshair
 		{
 			LoggerInstance.Msg("Aimed & ready to fire!");
 			Core.category = MelonPreferences.CreateCategory("EZCrosshair", "EZ Crosshair");
-			Core.enableToggle = Core.category.CreateEntry<bool>("EnableToggle", false, null, "Enable manual toggle? (NEW!) `false` for AUTOMATIC crosshair visibility! (true/false)", false, false, null, null);
-			Core.toggleKey = Core.category.CreateEntry<KeyCode>("ToggleKey", KeyCode.Y, null, "Manual toggle hotkey:", false, false, null, null);
+			Core.crosshairMode = Core.category.CreateEntry<string>("CrosshairMode", "auto", null, "Automatic vs. Manual Toggle (\"auto\" / \"manual\")", false, false, null, null);
+			Core.toggleKey = Core.category.CreateEntry<KeyCode>("ToggleKey", KeyCode.Y, null, "MANUAL toggle hotkey (NOTE: This does nothing when CrosshairMode = \"auto\"!)", false, false, null, null);
 		}
 
 		public override void OnSceneWasInitialized(int buildIndex, string sceneName)
@@ -76,41 +76,43 @@ namespace EZCrosshair
 		{
 			PlayerInventory playerInv = PlayerSingleton<PlayerInventory>.Instance;
 
-			if (this.gameLoaded && Core.enableToggle.Value && Input.GetKeyDown(Core.toggleKey.Value))
+			if (this.gameLoaded)
 			{
-				DebugLog(String.Format("[Toggle: {0}]", !this.showCrosshair ? "ON" : "OFF"));
-
-				this.showCrosshair = !this.showCrosshair;
-			}
-			else if (this.gameLoaded && !Core.enableToggle.Value && playerInv != null)
-			{
-				/* Only true if a hotbar slot is selected AND that slot has an item in it */
-				if (playerInv.isAnythingEquipped)
+				if (string.Equals(Core.crosshairMode.Value.ToLower(), "manual") && Input.GetKeyDown(Core.toggleKey.Value))
 				{
-					DebugLog(String.Format("\nSlot[{0}]:", playerInv.EquippedSlotIndex));  // hotbar slot index
+					DebugLog(String.Format("[Toggle: {0}]", !this.showCrosshair ? "ON" : "OFF"));
 
-					if (playerInv.equippedSlot.ItemInstance != null)
+					this.showCrosshair = !this.showCrosshair;
+				}
+				else if (string.Equals(Core.crosshairMode.Value.ToLower(), "auto") && playerInv != null)
+				{
+					if (playerInv.isAnythingEquipped)
 					{
-						DebugLog(String.Format("equippedSlot.ItemInstance.Name: {0}  (ID: {1})", playerInv.equippedSlot.ItemInstance.Name, playerInv.equippedSlot.ItemInstance.ID));
+						DebugLog(String.Format("\nSlot[{0}]:", playerInv.EquippedSlotIndex));  // hotbar slot index
 
-						/* If crosshair is not already visible & the item ID in the hotbar matches a listed ID, then enable the crosshair! */
-						if (!this.showCrosshair && crosshairIdList.Contains(playerInv.equippedSlot.ItemInstance.ID))
+						if (playerInv.equippedSlot.ItemInstance != null)
 						{
-							DebugLog("[Toggle: ON]");
-							this.showCrosshair = true;
-						}
-						/* Otherwise, if the crosshair is visible & the equipped ID doesn't match, then disable the crosshair! */
-						else if (this.showCrosshair && !crosshairIdList.Contains(playerInv.equippedSlot.ItemInstance.ID))
-						{
-							DebugLog("[Toggle: OFF]");
-							this.showCrosshair = false;
+							DebugLog(String.Format("equippedSlot.ItemInstance.Name: {0}  (ID: {1})", playerInv.equippedSlot.ItemInstance.Name, playerInv.equippedSlot.ItemInstance.ID));
+
+							/* If crosshair is not already visible & the item ID in the hotbar matches a listed ID, then enable the crosshair! */
+							if (!this.showCrosshair && crosshairIdList.Contains(playerInv.equippedSlot.ItemInstance.ID))
+							{
+								DebugLog("[Toggle: ON]");
+								this.showCrosshair = true;
+							}
+							/* Otherwise, if the crosshair is visible & the equipped ID doesn't match, then disable the crosshair! */
+							else if (this.showCrosshair && !crosshairIdList.Contains(playerInv.equippedSlot.ItemInstance.ID))
+							{
+								DebugLog("[Toggle: OFF]");
+								this.showCrosshair = false;
+							}
 						}
 					}
-				}
-				/* If an item is not selected in the hotbar & the crosshair was previously enabled, then disable the crosshair! */
-				else if (this.showCrosshair)
-				{
-					this.showCrosshair = false;
+					/* If an item is not selected in the hotbar & the crosshair was previously enabled, then disable the crosshair! */
+					else if (this.showCrosshair)
+					{
+						this.showCrosshair = false;
+					}
 				}
 			}
 		}
