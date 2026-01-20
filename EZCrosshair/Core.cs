@@ -14,7 +14,7 @@ namespace EZCrosshair
 	public class Core : MelonMod
 	{
 		/* List of ranged weapon IDs to compare with the hotbar item ID */
-		private static readonly string[] crosshairIdList = { "revolver", "m1911", "ak47" };
+		private static readonly string[] crosshairIdList = { "revolver", "m1911", "pumpshotgun", "ak47", "minigun" };
 
 		private const bool debugMode = false;
 
