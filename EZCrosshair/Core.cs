@@ -14,9 +14,11 @@ namespace EZCrosshair
 	public class Core : MelonMod
 	{
 		/* List of ranged weapon IDs to compare with the hotbar item ID */
-		private static readonly string[] crosshairIdList = { "revolver", "m1911", "pumpshotgun", "ak47", "minigun" };
+		private static readonly string[] defaultIdList = { "revolver", "m1911", "pumpshotgun", "ak47", "minigun" };
 
 		private const bool debugMode = false;
+
+		private string[] crosshairIdList = defaultIdList;
 
 		private bool gameLoaded;
 
@@ -28,11 +30,14 @@ namespace EZCrosshair
 
 		public static MelonPreferences_Entry<KeyCode> toggleKey;
 
+		public static MelonPreferences_Entry<string> crosshairIds;
+
 		public override void OnInitializeMelon()
 		{
 			LoggerInstance.Msg("Aimed & ready to fire!");
 			Core.category = MelonPreferences.CreateCategory("EZCrosshair", "EZ Crosshair");
 			Core.crosshairMode = Core.category.CreateEntry<string>("CrosshairMode", "auto", null, "Automatic vs. Manual Toggle (\"auto\" / \"manual\")", false, false, null, null);
+			Core.crosshairIds = Core.category.CreateEntry<string>("CrosshairIDs", string.Join(", ", defaultIdList), null, "Item IDs (separated by comma) for \"auto\" crosshair", false, false, null, null);
 			Core.toggleKey = Core.category.CreateEntry<KeyCode>("ToggleKey", KeyCode.Y, null, "MANUAL toggle hotkey (NOTE: This does nothing when CrosshairMode = \"auto\"!)", false, false, null, null);
 		}
 
@@ -42,6 +47,7 @@ namespace EZCrosshair
 			{
 				case "Main":
 					DebugLog("(Scene) \"Main\" Initialized!");
+					this.crosshairIdList = convertIdsToArray(Core.crosshairIds.Value);
 					break;
 
 				case "Menu":
