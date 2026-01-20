@@ -26,6 +26,7 @@ https://nexusmods.com/schedule1/mods/984
 - ~~Dynamically toggle the crosshair when a gun is equipped/unequipped in the hotbar.~~ &rarr; **[ADDED v1.1.0]**
 - ~~Add support for added weapon(s) from MoreGuns.  *(Not necessarily required, **assuming** that the broader resolution detailed right underneath is implemented!)*~~ &rarr; **[AK-47 ADDED v1.1.0]**
 - ~~Adjust MelonPreferences to make clearer what each setting does.~~ **[ADDED v1.1.1]**
+- ~~Add support for new Shotgun *(Basegame)* and Minigun *(MoreGuns)*.~~ **[ADDED v1.1.2]**
 
 ## Installation
 
@@ -43,10 +44,12 @@ https://nexusmods.com/schedule1/mods/984
 
 
 - `CrosshairMode =` ("auto" / "manual")
-  - `"auto"` &rarr; **Auto** Mode **(NEW!)**
+  - `"auto"` &rarr; **Auto** Mode
   - `"manual"` &rarr; **Manual** Mode
+- `CrosshairIDs =` [List of gun IDs for crosshair]
+  - Only used for **Auto Mode**.
 - `ToggleKey =` [KeyCode property](https://docs.unity3d.com/ScriptReference/KeyCode.html)
-  - Only used for **Manual Mode** *(does nothing in Auto Mode)*
+  - Only used for **Manual Mode**.
 
 ## Usage
 

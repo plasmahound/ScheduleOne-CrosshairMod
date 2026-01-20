@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.1.2] 2026-01-19
+- Resolves Issue [[#4](https://github.com/plasmahound/ScheduleOne-CrosshairMod/issues/4)].
+- Added the `pumpshotgun` and `minigun` weapons to the Gun ID list.
+- Changed the list of Gun IDs to generate as a `MelonPreferences.cfg` entry.
+  - This allows the user to add any new gun ID from a game update or a mod, without having to wait!
+  - Also, by removing an ID from the list, that specific gun won't have a crosshair.
+
 ## [v1.1.1] 2025-05-28
 - Refactored code for easier maintenance & readability.
 - Changed `MelonPreferences.cfg` to make clearer what each preference does.
