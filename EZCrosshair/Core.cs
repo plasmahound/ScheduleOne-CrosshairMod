@@ -137,6 +137,12 @@ namespace EZCrosshair
 			GUI.DrawTexture(new Rect(screenWidth - lineThickness, screenHeight - lineLength / 2f, 2f, lineLength), Texture2D.whiteTexture);
 		}
 
+		private string[] convertIdsToArray(string idList)
+		{
+			// Remove all whitespace characters & split each array item by comma
+			return string.Concat(idList.ToString().Where(c => !char.IsWhiteSpace(c))).Split(",");
+		}
+
 		public static void DebugLog(string msg)
 		{
 			if (Core.debugMode)
