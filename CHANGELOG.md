@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.1.3] 2026-01-30
+- Crosshair size is now configurable in a `MelonPreferences.cfg` entry.
+- Updated `GUI.DrawTexture()` lines which render the crosshair.
+  - Fixed flawed coordinate position maths.
+  - Change from 2 lines drawn to 4 lines on the N/S/E/W direction of the screen center.
+	- This allows for a center crosshair gap!
+- Refactored `OnGUI()` method in preparation of new crosshair shape options.
+
 ## [v1.1.2] 2026-01-19
 - Resolves Issue [[#4](https://github.com/plasmahound/ScheduleOne-CrosshairMod/issues/4)].
 - Added the `pumpshotgun` and `minigun` weapons to the Gun ID list.

@@ -18,8 +18,8 @@ https://nexusmods.com/schedule1/mods/984
 - Add a configurable option to disable the default white dot reticle.
 - Customizable crosshair:
 	- Color
-	- Shape
-	- Sizing Option *(for each shape)*
+	- ~~Shape~~ **[ADDED v1.1.3]**
+	- ~~Sizing Option~~ *(for each shape)*
 	- Configure & enable each shape separately *(so that you can combine multiple shapes!)*
 - Identify a ranged weapon **category** type that can be checked for the automatic functionality.
   - *Theoretically*, **ALL** ranged weapons **(modded or not)** should then be supported & "future-proofed".
@@ -48,8 +48,10 @@ https://nexusmods.com/schedule1/mods/984
   - `"manual"` &rarr; **Manual** Mode
 - `CrosshairIDs =` [List of gun IDs for crosshair]
   - Only used for **Auto Mode**.
-- `ToggleKey =` [KeyCode property](https://docs.unity3d.com/ScriptReference/KeyCode.html)
+- `ToggleKey =` `"Y"` ([KeyCode](https://docs.unity3d.com/ScriptReference/KeyCode.html) property)
   - Only used for **Manual Mode**.
+- `CrosshairSize =`  `10` (integer #)
+- `CrosshairThickness =`  `2` (integer #)
 
 ## Usage
 
