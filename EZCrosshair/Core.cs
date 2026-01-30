@@ -32,13 +32,19 @@ namespace EZCrosshair
 
 		public static MelonPreferences_Entry<string> crosshairIds;
 
+		public static MelonPreferences_Entry<int> crosshairLength;
+
+		public static MelonPreferences_Entry<int> crosshairWidth;
+
 		public override void OnInitializeMelon()
 		{
 			LoggerInstance.Msg("Aimed & ready to fire!");
 			Core.category = MelonPreferences.CreateCategory("EZCrosshair", "EZ Crosshair");
 			Core.crosshairMode = Core.category.CreateEntry<string>("CrosshairMode", "auto", null, "Automatic vs. Manual Toggle (\"auto\" / \"manual\")", false, false, null, null);
 			Core.crosshairIds = Core.category.CreateEntry<string>("CrosshairIDs", string.Join(", ", defaultIdList), null, "Item IDs (separated by comma) for \"auto\" crosshair", false, false, null, null);
-			Core.toggleKey = Core.category.CreateEntry<KeyCode>("ToggleKey", KeyCode.Y, null, "MANUAL toggle hotkey (NOTE: This does nothing when CrosshairMode = \"auto\"!)", false, false, null, null);
+			Core.toggleKey = Core.category.CreateEntry<KeyCode>("ToggleKey", KeyCode.Y, null, "Toggle hotkey for \"manual\" crosshair (NOTE: This does *nothing* when CrosshairMode = \"auto\"!)", false, false, null, null);
+			Core.crosshairLength = Core.category.CreateEntry<int>("CrosshairSize", 10, null, "Crosshair line length (DEFAULT: 10)", false, false, null, null);
+			Core.crosshairWidth = Core.category.CreateEntry<int>("CrosshairThickness", 1, null, "Crosshair line thickness (DEFAULT: 1)", false, false, null, null);
 		}
 
 		public override void OnSceneWasInitialized(int buildIndex, string sceneName)
@@ -130,7 +136,10 @@ namespace EZCrosshair
 				float lineLength = 10f;
 				float lineThickness = 1f;
 
-				DrawCrosshair(lineLength, lineThickness);
+				float lineLength = (float)Core.crosshairLength.Value; // 10f
+				float lineWidth = (float)Core.crosshairWidth.Value; // 1f
+
+				DrawCrosshair(lineLength, lineWidth);
 			}
 		}
 
