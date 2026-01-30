@@ -44,7 +44,7 @@ namespace EZCrosshair
 			Core.crosshairIds = Core.category.CreateEntry<string>("CrosshairIDs", string.Join(", ", defaultIdList), null, "Item IDs (separated by comma) for \"auto\" crosshair", false, false, null, null);
 			Core.toggleKey = Core.category.CreateEntry<KeyCode>("ToggleKey", KeyCode.Y, null, "Toggle hotkey for \"manual\" crosshair (NOTE: This does *nothing* when CrosshairMode = \"auto\"!)", false, false, null, null);
 			Core.crosshairLength = Core.category.CreateEntry<int>("CrosshairSize", 10, null, "Crosshair line length (DEFAULT: 10)", false, false, null, null);
-			Core.crosshairWidth = Core.category.CreateEntry<int>("CrosshairThickness", 1, null, "Crosshair line thickness (DEFAULT: 1)", false, false, null, null);
+			Core.crosshairWidth = Core.category.CreateEntry<int>("CrosshairThickness", 2, null, "Crosshair line thickness (DEFAULT: 2)", false, false, null, null);
 		}
 
 		public override void OnSceneWasInitialized(int buildIndex, string sceneName)
@@ -133,23 +133,29 @@ namespace EZCrosshair
 		{
 			if (this.gameLoaded && this.showCrosshair)
 			{
-				float lineLength = 10f;
-				float lineThickness = 1f;
+				float screenCenterX = (float)(Screen.width / 2);
+				float screenCenterY = (float)(Screen.height / 2);
+
+				Texture2D texture = Texture2D.whiteTexture;
 
 				float lineLength = (float)Core.crosshairLength.Value; // 10f
-				float lineWidth = (float)Core.crosshairWidth.Value; // 1f
+				float lineThickness = (float)Core.crosshairWidth.Value; // 2f
+				float centerGap = 0f;
 
-				DrawCrosshair(lineLength, lineWidth);
+				DrawCrosshairPlus(screenCenterX, screenCenterY, texture, lineLength, lineThickness, centerGap);
 			}
 		}
 
-		private void DrawCrosshair(float lineLength, float lineThickness)
+		private void DrawCrosshairPlus(float centerX, float centerY, Texture2D tex, float length, float thickness, float gap)
 		{
-			float screenWidth = (float)(Screen.width / 2);
-			float screenHeight = (float)(Screen.height / 2);
-
-			GUI.DrawTexture(new Rect(screenWidth - lineLength / 2f, screenHeight - lineThickness, lineLength, 2f), Texture2D.whiteTexture);
-			GUI.DrawTexture(new Rect(screenWidth - lineThickness, screenHeight - lineLength / 2f, 2f, lineLength), Texture2D.whiteTexture);
+			// Horizontal line - LEFT of center
+			GUI.DrawTexture(new Rect(centerX - gap - length, centerY - thickness / 2f, length, thickness), tex);
+			// Horizontal line - RIGHT of center
+			GUI.DrawTexture(new Rect(centerX + gap, centerY - thickness / 2f, length, thickness), tex);
+			// Vertical line - ABOVE center
+			GUI.DrawTexture(new Rect(centerX - thickness / 2f, centerY - gap - length, thickness, length), tex);
+			// Vertical line - BELOW center
+			GUI.DrawTexture(new Rect(centerX - thickness / 2f, centerY + gap, thickness, length), tex);
 		}
 
 		private string[] convertIdsToArray(string idList)
