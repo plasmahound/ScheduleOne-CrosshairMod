@@ -57,7 +57,7 @@ namespace EZCrosshair
 			{
 				case "Main":
 					DebugLog("(Scene) \"Main\" Initialized!");
-					this.crosshairIdList = convertIdsToArray(Core.crosshairIds.Value);
+					this.crosshairIdList = convertStringListToArray(Core.crosshairIds.Value);
 					break;
 
 				case "Menu":
@@ -311,7 +311,7 @@ namespace EZCrosshair
 			return texture;
 		}
 
-		private string[] convertIdsToArray(string idList)
+		private string[] convertStringListToArray(string idList)
 		{
 			// Remove all whitespace characters & split each array item by comma
 			return string.Concat(idList.ToString().Where(c => !char.IsWhiteSpace(c))).Split(",");
