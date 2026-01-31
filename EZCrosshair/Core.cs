@@ -157,8 +157,9 @@ namespace EZCrosshair
 					this.redDotTexture = this.CreateOutlinedCircleTexture(16, 2f, Color.red, Color.black);
 		}
 
-				DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, lineLength, lineThickness, centerGap);
+				//DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, lineLength, lineThickness, centerGap);
 				//DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
+				DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 1f);
 			}
 		}
 
@@ -170,27 +171,31 @@ namespace EZCrosshair
 
 		private void DrawCrosshairDot(float centerX, float centerY, Texture2D texture, float size)
 		{
-			GUI.DrawTexture(new Rect(centerX - size / 2f, centerY - size / 2f, size, size), texture);
+			GUI.DrawTexture(new Rect(centerX - size * 0.5f, centerY - size * 0.5f, size, size), texture);
 		}
 
 		private void DrawCrosshairPlus(float centerX, float centerY, Texture2D texture, float length, float thickness, float gap)
 		{
 			// Horizontal line - LEFT of center
-			GUI.DrawTexture(new Rect(centerX - gap - length, centerY - thickness / 2f, length, thickness), texture);
+			GUI.DrawTexture(new Rect(centerX - gap - length, centerY - thickness * 0.5f, length, thickness), texture);
 			// Horizontal line - RIGHT of center
-			GUI.DrawTexture(new Rect(centerX + gap, centerY - thickness / 2f, length, thickness), texture);
+			GUI.DrawTexture(new Rect(centerX + gap, centerY - thickness * 0.5f, length, thickness), texture);
 			// Vertical line - ABOVE center
-			GUI.DrawTexture(new Rect(centerX - thickness / 2f, centerY - gap - length, thickness, length), texture);
+			GUI.DrawTexture(new Rect(centerX - thickness * 0.5f, centerY - gap - length, thickness, length), texture);
 			// Vertical line - BELOW center
-			GUI.DrawTexture(new Rect(centerX - thickness / 2f, centerY + gap, thickness, length), texture);
+			GUI.DrawTexture(new Rect(centerX - thickness * 0.5f, centerY + gap, thickness, length), texture);
 		}
 
 		private void DrawCrosshairSquare(float centerX, float centerY, Texture2D texture, float size, float thickness, float gap)
 		{
-			float halfLength = size / 2f; // The distance from the screen center to any edge of the square
-			// (-) TOP edge
+			// The distance from the screen center to any edge of the square
+			float halfLength = size * 0.5f;
+			// Clamp the gap
+			gap = Mathf.Clamp(gap, 0f, halfLength - thickness);
+
+			// (-) TOP edge - horizontal line
 			GUI.DrawTexture(new Rect(centerX - halfLength, centerY - halfLength, size, thickness), texture);
-			// (-) BOTTOM edge
+			// (-) BOTTOM edge - horizontal line
 			GUI.DrawTexture(new Rect(centerX - halfLength, centerY + halfLength - thickness, size, thickness), texture);
 			// (|) LEFT edge
 			GUI.DrawTexture(new Rect(centerX - halfLength, centerY - halfLength, thickness, halfLength - gap), texture);
@@ -216,7 +221,7 @@ namespace EZCrosshair
 			texture.filterMode = FilterMode.Bilinear;
 			texture.wrapMode = TextureWrapMode.Clamp;
 
-			float radius = size / 2f;
+			float radius = size * 0.5f;
 			Vector2 center = new Vector2(radius, radius);
 
 			for (int y = 0; y < size; y++)
@@ -248,7 +253,7 @@ namespace EZCrosshair
 			texture.filterMode= FilterMode.Bilinear;
 			texture.wrapMode= TextureWrapMode.Clamp;
 
-			float radius = size / 2f;
+			float radius = size * 0.5f;
 			float innerRadius = radius - borderThickness;
 			Vector2 center = new Vector2(radius, radius);
 
