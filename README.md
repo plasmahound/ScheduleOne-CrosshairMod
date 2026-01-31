@@ -16,13 +16,13 @@ https://nexusmods.com/schedule1/mods/984
 ### Planned Features / Bugfixes
 - Add proper support for the [Mod Manager - Phone App](https://www.nexusmods.com/schedule1/mods/397).
 - Add a configurable option to disable the default white dot reticle.
-- Customizable crosshair:
-	- Color
-	- ~~Shape~~ **[ADDED v1.1.3]**
-	- ~~Sizing Option~~ *(for each shape)*
-	- Configure & enable each shape separately *(so that you can combine multiple shapes!)*
 - Identify a ranged weapon **category** type that can be checked for the automatic functionality.
   - *Theoretically*, **ALL** ranged weapons **(modded or not)** should then be supported & "future-proofed".
+- ~~Customizable crosshair:~~ **[ADDED v1.1.4]**
+	- Color
+	- ~~Shape~~ **[ADDED v1.1.3]**
+	- ~~Sizing Option *(for each shape)*~~ **[ADDED v1.1.4]**
+	- ~~Configure & enable each shape separately *(so that you can combine multiple shapes!)*~~ **[ADDED v1.1.4]**
 - ~~Dynamically toggle the crosshair when a gun is equipped/unequipped in the hotbar.~~ &rarr; **[ADDED v1.1.0]**
 - ~~Add support for added weapon(s) from MoreGuns.  *(Not necessarily required, **assuming** that the broader resolution detailed right underneath is implemented!)*~~ &rarr; **[AK-47 ADDED v1.1.0]**
 - ~~Adjust MelonPreferences to make clearer what each setting does.~~ **[ADDED v1.1.1]**
@@ -50,8 +50,14 @@ https://nexusmods.com/schedule1/mods/984
   - Only used for **Auto Mode**.
 - `ToggleKey =` `"Y"` ([KeyCode](https://docs.unity3d.com/ScriptReference/KeyCode.html) property)
   - Only used for **Manual Mode**.
-- `CrosshairSize =`  `10` (integer #)
-- `CrosshairThickness =`  `2` (integer #)
+- `CrosshairShapes =`  "`dot`, `plus`, `square`" (comma-separated choices)
+- `DotSize =`  `2.0` (decimal)
+- `PlusSize =`  `8.0` (decimal)
+- `PlusThickness =`  `2.0` (decimal)
+- `PlusGap =`  `0.0` (decimal)
+- `SquareSize =` `10.0` (decimal)
+- `SquareThickness =` `2.0` (decimal)
+- `SquareGap =` `1.0` (decimal)
 
 ## Usage
 

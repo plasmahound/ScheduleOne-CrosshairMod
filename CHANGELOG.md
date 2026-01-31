@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.1.4] 2026-01-31
+- Crosshair shapes are now configurable in `MelonPrefernces.cfg`.
+- Dot reticle, Plus crosshair, & Square scope (`CrosshairShapes = ` "`dot`, `plus`, `square`").
+  - Any combination of these 3 options (comma-separated) make up the crosshair.
+- Each shape has their own settings. Each shape is rendered with its specific settings only when it's included in `CrosshairShapes`.
+  - This allows for many variations of some of the most common crosshair designs.
+
 ## [v1.1.3] 2026-01-30
 - Crosshair size is now configurable in a `MelonPreferences.cfg` entry.
 - Updated `GUI.DrawTexture()` lines which render the crosshair.
