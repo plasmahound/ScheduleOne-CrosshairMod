@@ -24,6 +24,9 @@ namespace EZCrosshair
 
 		private bool showCrosshair;
 
+		private Texture2D whiteDotTexture;
+		private Texture2D redDotTexture;
+
 		public static MelonPreferences_Category category;
 
 		public static MelonPreferences_Entry<string> crosshairMode;
@@ -142,20 +145,67 @@ namespace EZCrosshair
 				float lineThickness = (float)Core.crosshairWidth.Value; // 2f
 				float centerGap = 0f;
 
+				if (this.whiteDotTexture == null)
+				{
+					this.whiteDotTexture = this.CreateCircleTexture(16, Color.white);
+			}
+				if (this.redDotTexture == null)
+				{
+					this.redDotTexture = this.CreateCircleTexture(16, Color.red);
+		}
+
 				DrawCrosshairPlus(screenCenterX, screenCenterY, texture, lineLength, lineThickness, centerGap);
+				//DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
 			}
 		}
 
-		private void DrawCrosshairPlus(float centerX, float centerY, Texture2D tex, float length, float thickness, float gap)
+		private void DrawCrosshairDot(float centerX, float centerY, Texture2D texture, float size)
+		{
+			GUI.DrawTexture(new Rect(centerX - size / 2f, centerY - size / 2f, size, size), texture);
+		}
+
+		private void DrawCrosshairPlus(float centerX, float centerY, Texture2D texture, float length, float thickness, float gap)
 		{
 			// Horizontal line - LEFT of center
-			GUI.DrawTexture(new Rect(centerX - gap - length, centerY - thickness / 2f, length, thickness), tex);
+			GUI.DrawTexture(new Rect(centerX - gap - length, centerY - thickness / 2f, length, thickness), texture);
 			// Horizontal line - RIGHT of center
-			GUI.DrawTexture(new Rect(centerX + gap, centerY - thickness / 2f, length, thickness), tex);
+			GUI.DrawTexture(new Rect(centerX + gap, centerY - thickness / 2f, length, thickness), texture);
 			// Vertical line - ABOVE center
-			GUI.DrawTexture(new Rect(centerX - thickness / 2f, centerY - gap - length, thickness, length), tex);
+			GUI.DrawTexture(new Rect(centerX - thickness / 2f, centerY - gap - length, thickness, length), texture);
 			// Vertical line - BELOW center
-			GUI.DrawTexture(new Rect(centerX - thickness / 2f, centerY + gap, thickness, length), tex);
+			GUI.DrawTexture(new Rect(centerX - thickness / 2f, centerY + gap, thickness, length), texture);
+		}
+
+		private Texture2D CreateCircleTexture(int size, Color color)
+		{
+			Texture2D texture = new Texture2D(size, size, TextureFormat.ARGB32, false);
+			texture.filterMode = FilterMode.Bilinear;
+			texture.wrapMode = TextureWrapMode.Clamp;
+
+			float radius = size / 2f;
+			Vector2 center = new Vector2(radius, radius);
+
+			for (int y = 0; y < size; y++)
+			{
+				for (int x = 0; x < size; x++)
+				{
+					float distance = Vector2.Distance(new Vector2(x, y), center);
+
+					// If inside dot's radius, draw a colored pixel
+					if (distance <= radius)
+					{
+						texture.SetPixel(x, y, color);
+					}
+					// If outside the dot's radius, draw exterior transparency to prevent artifacting
+					else
+					{
+						texture.SetPixel(x, y, Color.clear);
+					}
+				}
+			}
+
+			texture.Apply();
+			return texture;
 		}
 
 		private string[] convertIdsToArray(string idList)
