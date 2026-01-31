@@ -137,8 +137,8 @@ namespace EZCrosshair
 		{
 			if (this.gameLoaded && this.showCrosshair)
 			{
-				float screenCenterX = (float)(Screen.width / 2);
-				float screenCenterY = (float)(Screen.height / 2);
+				float screenCenterX = Mathf.Round(Screen.width * 0.5f);
+				float screenCenterY = Mathf.Round(Screen.height * 0.5f);
 
 				float lineLength = (float)Core.crosshairLength.Value; // 8f
 				float lineThickness = (float)Core.crosshairWidth.Value; // 2f
