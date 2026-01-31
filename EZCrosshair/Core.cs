@@ -158,18 +158,21 @@ namespace EZCrosshair
 				}
 
 				//DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, lineLength, lineThickness, centerGap);
-				//DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
-				DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 0f);
+				DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
+				//DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 0f);
+				//DrawCrosshairSquareWithDot(screenCenterX, screenCenterY, this.whiteTexture, this.whiteDotTexture, 10f, 2f, 1f, 2f);
 			}
 		}
 
 		// EXAMPLE CROSSHAIR VALUES:
-		// Dot:				DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
-		// Plus:			DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, 8f, 2f, 0f);
-		// Plus (gap):		DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, 8f, 2f, 3f);
-		// Square:			DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 0f);
-		// Square (gap):	DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 1f);
-		// Plus-Dot:		DrawCrosshairPlusWithDot(screenCenterX, screenCenterY, this.whiteTexture, this.whiteDotTexture, 8f, 2f, 3f, 2f);
+		// Dot:					DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
+		// Plus:				DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, 8f, 2f, 0f);
+		// Plus (gap):			DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, 8f, 2f, 3f);
+		// Square:				DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 0f);
+		// Square (gap):		DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 1f);
+		// Plus-Dot:			DrawCrosshairPlusWithDot(screenCenterX, screenCenterY, this.whiteTexture, this.whiteDotTexture, 8f, 2f, 3f, 2f);
+		// Square-Dot:			DrawCrosshairSquareWithDot(screenCenterX, screenCenterY, this.whiteTexture, this.whiteDotTexture, 10f, 2f, 0f, 2f);
+		// Square-Dot (gap):	DrawCrosshairSquareWithDot(screenCenterX, screenCenterY, this.whiteTexture, this.whiteDotTexture, 10f, 2f, 1f, 2f);
 
 		private void DrawCrosshairDot(float centerX, float centerY, Texture2D texture, float size)
 		{
@@ -219,10 +222,10 @@ namespace EZCrosshair
 			DrawCrosshairDot(centerX, centerY, textureDot, dotSize);
 		}
 
-		private void DrawCrosshairSquareWithDot(float centerX, float centerY, Texture2D texture, float size, float thickness, float gap, float dotSize)
+		private void DrawCrosshairSquareWithDot(float centerX, float centerY, Texture2D textureSquare, Texture2D textureDot, float size, float thickness, float gap, float dotSize)
 		{
-			DrawCrosshairSquare(centerX, centerY, texture, size, thickness, gap);
-			DrawCrosshairDot(centerX, centerY, texture, dotSize);
+			DrawCrosshairSquare(centerX, centerY, textureSquare, size, thickness, gap);
+			DrawCrosshairDot(centerX, centerY, textureDot, dotSize);
 		}
 
 		private Texture2D CreateCircleTexture(int size, Color color)
@@ -257,42 +260,50 @@ namespace EZCrosshair
 			return texture;
 		}
 
-		private Texture2D CreateOutlinedCircleTexture(int size, float borderThickness, Color color, Color outline)
+		private Texture2D CreateOutlinedCircleTexture(int size, float borderThickness, Color color, Color outline, float edgeSoftness = 1.25f)
 		{
 			Texture2D texture = new Texture2D(size, size, TextureFormat.ARGB32, false);
-			texture.filterMode= FilterMode.Bilinear;
-			texture.wrapMode= TextureWrapMode.Clamp;
+			texture.filterMode = FilterMode.Bilinear;
+			texture.wrapMode = TextureWrapMode.Clamp;
 
 			float radius = size * 0.5f;
 			float innerRadius = radius - borderThickness;
 			Vector2 center = new Vector2(radius, radius);
 
+			// Outer Transparency -> Soft Outer Edge -> Border Color -> Fill Color
 			for (int y = 0; y < size; y++)
 			{
 				for (int x = 0; x < size; x++)
 				{
-					float distance = Vector2.Distance(new Vector2(x, y), center);
+					float distance = Vector2.Distance(new Vector2(x + 0.5f, y + 0.5f), center);
 
-					// If inside the dot's radius, draw a colored pixel
-					if (distance <= radius)
-					{
-						// If outside the inner radius, draw the border outline color
-						if (distance >= innerRadius)
-						{
-							texture.SetPixel(x, y, outline);
-						}
-						// Otherwise, draw the interior dot color
-						else
-						{
-							// Inside circle
-							texture.SetPixel(x, y, color);
-						}
-					}
-					// Otherwise, draw exterior transparency to prevent square artifacting
-					else
+					// Outer Transparency - Draw nothing outside of the circle
+					if (distance > radius + edgeSoftness)
 					{
 						texture.SetPixel(x, y, Color.clear);
+						continue;
 					}
+
+					// Soft Outer Edge - Alpha fading ANTI-ALIASING between outside the circle & the border outline
+					if (distance > radius)
+					{
+						float alpha = Mathf.Clamp01((radius + edgeSoftness - distance) / edgeSoftness);
+						texture.SetPixel(x, y, new Color(0f, 0f, 0f, alpha));
+						continue;
+					}
+
+					// Border Color - Solid border ring with alpha-blended inner edge
+					if (distance >= innerRadius)
+					{
+						// Anti-alias inner border edge
+						float innerAlpha = Mathf.Clamp01((distance - innerRadius) / edgeSoftness);
+						Color c = Color.Lerp(color, outline, innerAlpha);
+						texture.SetPixel(x, y, c);
+						continue;
+					}
+
+					// Fill Color - Opaque inner fill of the given color
+					texture.SetPixel(x, y, color);
 				}
 			}
 
