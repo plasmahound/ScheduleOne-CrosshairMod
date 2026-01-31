@@ -36,9 +36,21 @@ namespace EZCrosshair
 
 		public static MelonPreferences_Entry<string> crosshairIds;
 
-		public static MelonPreferences_Entry<int> crosshairLength;
+		public static MelonPreferences_Entry<string> crosshairShapeList;
 
-		public static MelonPreferences_Entry<int> crosshairWidth;
+		public static MelonPreferences_Entry<float> crosshairDotSize;
+
+		public static MelonPreferences_Entry<float> crosshairPlusSize;
+
+		public static MelonPreferences_Entry<float> crosshairPlusThickness;
+
+		public static MelonPreferences_Entry<float> crosshairPlusGap;
+
+		public static MelonPreferences_Entry<float> crosshairSquareSize;
+
+		public static MelonPreferences_Entry<float> crosshairSquareThickness;
+
+		public static MelonPreferences_Entry<float> crosshairSquareGap;
 
 		public override void OnInitializeMelon()
 		{
@@ -47,8 +59,14 @@ namespace EZCrosshair
 			Core.crosshairMode = Core.category.CreateEntry<string>("CrosshairMode", "auto", null, "Automatic vs. Manual Toggle (\"auto\" / \"manual\")", false, false, null, null);
 			Core.crosshairIds = Core.category.CreateEntry<string>("CrosshairIDs", string.Join(", ", defaultIdList), null, "Item IDs (separated by comma) for \"auto\" crosshair", false, false, null, null);
 			Core.toggleKey = Core.category.CreateEntry<KeyCode>("ToggleKey", KeyCode.Y, null, "Toggle hotkey for \"manual\" crosshair (NOTE: This does *nothing* when CrosshairMode = \"auto\"!)", false, false, null, null);
-			Core.crosshairLength = Core.category.CreateEntry<int>("CrosshairSize", 8, null, "Crosshair line length (DEFAULT: 10)", false, false, null, null);
-			Core.crosshairWidth = Core.category.CreateEntry<int>("CrosshairThickness", 2, null, "Crosshair line thickness (DEFAULT: 2)", false, false, null, null);
+			Core.crosshairShapeList = Core.category.CreateEntry<string>("CrosshairShapes", "square, dot", null, "SHAPES: \"dot, plus, square\" (any combination, separated by comma) [choose 1, 2, or all 3 simultaneously!]", false, false, null, null);
+			Core.crosshairDotSize = Core.category.CreateEntry<float>("DotSize", 2f, null, "[Dot] Size of dot reticle (DEFAULT: 2.0)", false, false, null, null);
+			Core.crosshairPlusSize = Core.category.CreateEntry<float>("PlusSize", 8f, null, "[Plus] Crosshair line length (DEFAULT: 8.0)", false, false, null, "CrosshairSize");
+			Core.crosshairPlusThickness = Core.category.CreateEntry<float>("PlusThickness", 2f, null, "[Plus] Crosshair line thickness (DEFAULT: 2.0)", false, false, null, "CrosshairThickness");
+			Core.crosshairPlusGap = Core.category.CreateEntry<float>("PlusGap", 0f, null, "[Plus] Crosshair center gap (DEFAULT: 0.0)", false, false, null, null);
+			Core.crosshairSquareSize = Core.category.CreateEntry<float>("SquareSize", 10f, null, "[Square] Crosshair edge length (DEFAULT: 10.0)", false, false, null, null);
+			Core.crosshairSquareThickness = Core.category.CreateEntry<float>("SquareThickness", 2f, null, "[Square] Crosshair edge line thickness (DEFAULT: 2.0)", false, false, null, null);
+			Core.crosshairSquareGap = Core.category.CreateEntry<float>("SquareGap", 1f, null, "[Square] Crosshair gap in the center of the vertical lines (DEFAULT: 1.0)", false, false, null, null);
 		}
 
 		public override void OnSceneWasInitialized(int buildIndex, string sceneName)
@@ -140,10 +158,7 @@ namespace EZCrosshair
 				float screenCenterX = Mathf.Round(Screen.width * 0.5f);
 				float screenCenterY = Mathf.Round(Screen.height * 0.5f);
 
-				float lineLength = (float)Core.crosshairLength.Value; // 8f
-				float lineThickness = (float)Core.crosshairWidth.Value; // 2f
-				float centerGap = 0f;
-
+				// Lazy initialization of all Texture2D textures:
 				if (this.whiteTexture == null)
 				{
 					this.whiteTexture = Texture2D.whiteTexture;
@@ -157,10 +172,31 @@ namespace EZCrosshair
 					this.redDotTexture = this.CreateOutlinedCircleTexture(16, 2f, Color.red, Color.black);
 				}
 
-				//DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, lineLength, lineThickness, centerGap);
-				DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
-				//DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 0f);
-				//DrawCrosshairSquareWithDot(screenCenterX, screenCenterY, this.whiteTexture, this.whiteDotTexture, 10f, 2f, 1f, 2f);
+				// Draw each of the user-selected crosshair overlays:
+
+				string[] crosshairs = convertStringListToArray(Core.crosshairShapeList.Value);
+
+				if (crosshairs.Length > 0 && crosshairs.Contains("dot"))
+				{
+					float dotSize = (float)Core.crosshairDotSize.Value; // DEFAULT: 2f
+					DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, dotSize);
+				}
+
+				if (crosshairs.Length > 0 && crosshairs.Contains("plus"))
+				{
+					float plusSize = (float)Core.crosshairPlusSize.Value; // DEFAULT: 8f
+					float plusThickness = (float)Core.crosshairPlusThickness.Value; // DEFAULT: 2f
+					float plusGapSize = (float)Core.crosshairPlusGap.Value; // DEFAULT: 0f
+					DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, plusSize, plusThickness, plusGapSize);
+				}
+
+				if (crosshairs.Length > 0 && crosshairs.Contains("square"))
+				{
+					float squareSize = (float)Core.crosshairSquareSize.Value; // DEFAULT: 10f
+					float squareThickness = (float)Core.crosshairPlusThickness.Value; // DEFAULT: 2f
+					float squareGapSize = (float)Core.crosshairPlusGap.Value; // DEFAULT: 1f
+					DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, squareSize, squareThickness, squareGapSize);
+				}
 			}
 		}
 
