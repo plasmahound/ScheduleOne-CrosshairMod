@@ -151,23 +151,25 @@ namespace EZCrosshair
 				if (this.whiteDotTexture == null)
 				{
 					this.whiteDotTexture = this.CreateOutlinedCircleTexture(16, 2f, Color.white, Color.black);
-			}
+				}
 				if (this.redDotTexture == null)
 				{
 					this.redDotTexture = this.CreateOutlinedCircleTexture(16, 2f, Color.red, Color.black);
-		}
+				}
 
 				//DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, lineLength, lineThickness, centerGap);
 				//DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
-				DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 1f);
+				DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 0f);
 			}
 		}
 
 		// EXAMPLE CROSSHAIR VALUES:
-		// Dot:			DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
-		// Plus:		DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, 8f, 2f, 0f);
-		// Plus (gap):	DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, 8f, 2f, 3f);
-		// Plus-Dot:	DrawCrosshairPlusWithDot(screenCenterX, screenCenterY, this.whiteTexture, this.whiteDotTexture, 8f, 2f, 3f, 2f);
+		// Dot:				DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
+		// Plus:			DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, 8f, 2f, 0f);
+		// Plus (gap):		DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, 8f, 2f, 3f);
+		// Square:			DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 0f);
+		// Square (gap):	DrawCrosshairSquare(screenCenterX, screenCenterY, this.whiteTexture, 10f, 2f, 1f);
+		// Plus-Dot:		DrawCrosshairPlusWithDot(screenCenterX, screenCenterY, this.whiteTexture, this.whiteDotTexture, 8f, 2f, 3f, 2f);
 
 		private void DrawCrosshairDot(float centerX, float centerY, Texture2D texture, float size)
 		{
@@ -193,14 +195,22 @@ namespace EZCrosshair
 			// Clamp the gap
 			gap = Mathf.Clamp(gap, 0f, halfLength - thickness);
 
-			// (-) TOP edge - horizontal line
+			// (N) TOP edge - horizontal line
 			GUI.DrawTexture(new Rect(centerX - halfLength, centerY - halfLength, size, thickness), texture);
-			// (-) BOTTOM edge - horizontal line
+			// (S) BOTTOM edge - horizontal line
 			GUI.DrawTexture(new Rect(centerX - halfLength, centerY + halfLength - thickness, size, thickness), texture);
-			// (|) LEFT edge
-			GUI.DrawTexture(new Rect(centerX - halfLength, centerY - halfLength, thickness, halfLength - gap), texture);
-			// (|) RIGHT edge
-			GUI.DrawTexture(new Rect(centerX + halfLength - thickness, centerY - halfLength, thickness, halfLength - gap), texture);
+
+			float verticalHeight = halfLength - gap;
+
+			// (NW) LEFT edge - vertical line (TOP half)
+			GUI.DrawTexture(new Rect(centerX - halfLength, centerY - halfLength, thickness, verticalHeight), texture);
+			// (SW) LEFT edge - vertical line (BOTTOM half)
+			GUI.DrawTexture(new Rect(centerX - halfLength, centerY + gap, thickness, verticalHeight), texture);
+
+			// (NE) RIGHT edge - vertical line (TOP half)
+			GUI.DrawTexture(new Rect(centerX + halfLength - thickness, centerY - halfLength, thickness, verticalHeight), texture);
+			// (SE) RIGHT edge - vertical line (BOTTOM half)
+			GUI.DrawTexture(new Rect(centerX + halfLength - thickness, centerY + gap, thickness, verticalHeight), texture);
 		}
 
 		private void DrawCrosshairPlusWithDot(float centerX, float centerY, Texture2D texturePlus, Texture2D textureDot, float length, float thickness, float gap, float dotSize)
