@@ -47,7 +47,7 @@ namespace EZCrosshair
 			Core.crosshairMode = Core.category.CreateEntry<string>("CrosshairMode", "auto", null, "Automatic vs. Manual Toggle (\"auto\" / \"manual\")", false, false, null, null);
 			Core.crosshairIds = Core.category.CreateEntry<string>("CrosshairIDs", string.Join(", ", defaultIdList), null, "Item IDs (separated by comma) for \"auto\" crosshair", false, false, null, null);
 			Core.toggleKey = Core.category.CreateEntry<KeyCode>("ToggleKey", KeyCode.Y, null, "Toggle hotkey for \"manual\" crosshair (NOTE: This does *nothing* when CrosshairMode = \"auto\"!)", false, false, null, null);
-			Core.crosshairLength = Core.category.CreateEntry<int>("CrosshairSize", 10, null, "Crosshair line length (DEFAULT: 10)", false, false, null, null);
+			Core.crosshairLength = Core.category.CreateEntry<int>("CrosshairSize", 8, null, "Crosshair line length (DEFAULT: 10)", false, false, null, null);
 			Core.crosshairWidth = Core.category.CreateEntry<int>("CrosshairThickness", 2, null, "Crosshair line thickness (DEFAULT: 2)", false, false, null, null);
 		}
 
@@ -140,9 +140,7 @@ namespace EZCrosshair
 				float screenCenterX = (float)(Screen.width / 2);
 				float screenCenterY = (float)(Screen.height / 2);
 
-				Texture2D texture = Texture2D.whiteTexture;
-
-				float lineLength = (float)Core.crosshairLength.Value; // 10f
+				float lineLength = (float)Core.crosshairLength.Value; // 8f
 				float lineThickness = (float)Core.crosshairWidth.Value; // 2f
 				float centerGap = 0f;
 
@@ -164,6 +162,12 @@ namespace EZCrosshair
 			}
 		}
 
+		// EXAMPLE CROSSHAIR VALUES:
+		// Dot:			DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
+		// Plus:		DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, 8f, 2f, 0f);
+		// Plus (gap):	DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, 8f, 2f, 3f);
+		// Plus-Dot:	DrawCrosshairPlusWithDot(screenCenterX, screenCenterY, this.whiteTexture, this.whiteDotTexture, 8f, 2f, 3f, 2f);
+
 		private void DrawCrosshairDot(float centerX, float centerY, Texture2D texture, float size)
 		{
 			GUI.DrawTexture(new Rect(centerX - size / 2f, centerY - size / 2f, size, size), texture);
@@ -179,6 +183,12 @@ namespace EZCrosshair
 			GUI.DrawTexture(new Rect(centerX - thickness / 2f, centerY - gap - length, thickness, length), texture);
 			// Vertical line - BELOW center
 			GUI.DrawTexture(new Rect(centerX - thickness / 2f, centerY + gap, thickness, length), texture);
+		}
+
+		private void DrawCrosshairPlusWithDot(float centerX, float centerY, Texture2D texturePlus, Texture2D textureDot, float length, float thickness, float gap, float dotSize)
+		{
+			DrawCrosshairPlus(centerX, centerY, texturePlus, length, thickness, gap);
+			DrawCrosshairDot(centerX, centerY, textureDot, dotSize);
 		}
 
 		private Texture2D CreateCircleTexture(int size, Color color)
