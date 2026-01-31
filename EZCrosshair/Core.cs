@@ -24,6 +24,7 @@ namespace EZCrosshair
 
 		private bool showCrosshair;
 
+		private Texture2D whiteTexture;
 		private Texture2D whiteDotTexture;
 		private Texture2D redDotTexture;
 
@@ -145,16 +146,20 @@ namespace EZCrosshair
 				float lineThickness = (float)Core.crosshairWidth.Value; // 2f
 				float centerGap = 0f;
 
+				if (this.whiteTexture == null)
+				{
+					this.whiteTexture = Texture2D.whiteTexture;
+				}
 				if (this.whiteDotTexture == null)
 				{
-					this.whiteDotTexture = this.CreateCircleTexture(16, Color.white);
+					this.whiteDotTexture = this.CreateOutlinedCircleTexture(16, 2f, Color.white, Color.black);
 			}
 				if (this.redDotTexture == null)
 				{
-					this.redDotTexture = this.CreateCircleTexture(16, Color.red);
+					this.redDotTexture = this.CreateOutlinedCircleTexture(16, 2f, Color.red, Color.black);
 		}
 
-				DrawCrosshairPlus(screenCenterX, screenCenterY, texture, lineLength, lineThickness, centerGap);
+				DrawCrosshairPlus(screenCenterX, screenCenterY, this.whiteTexture, lineLength, lineThickness, centerGap);
 				//DrawCrosshairDot(screenCenterX, screenCenterY, this.whiteDotTexture, 6f);
 			}
 		}
@@ -197,6 +202,49 @@ namespace EZCrosshair
 						texture.SetPixel(x, y, color);
 					}
 					// If outside the dot's radius, draw exterior transparency to prevent artifacting
+					else
+					{
+						texture.SetPixel(x, y, Color.clear);
+					}
+				}
+			}
+
+			texture.Apply();
+			return texture;
+		}
+
+		private Texture2D CreateOutlinedCircleTexture(int size, float borderThickness, Color color, Color outline)
+		{
+			Texture2D texture = new Texture2D(size, size, TextureFormat.ARGB32, false);
+			texture.filterMode= FilterMode.Bilinear;
+			texture.wrapMode= TextureWrapMode.Clamp;
+
+			float radius = size / 2f;
+			float innerRadius = radius - borderThickness;
+			Vector2 center = new Vector2(radius, radius);
+
+			for (int y = 0; y < size; y++)
+			{
+				for (int x = 0; x < size; x++)
+				{
+					float distance = Vector2.Distance(new Vector2(x, y), center);
+
+					// If inside the dot's radius, draw a colored pixel
+					if (distance <= radius)
+					{
+						// If outside the inner radius, draw the border outline color
+						if (distance >= innerRadius)
+						{
+							texture.SetPixel(x, y, outline);
+						}
+						// Otherwise, draw the interior dot color
+						else
+						{
+							// Inside circle
+							texture.SetPixel(x, y, color);
+						}
+					}
+					// Otherwise, draw exterior transparency to prevent square artifacting
 					else
 					{
 						texture.SetPixel(x, y, Color.clear);
